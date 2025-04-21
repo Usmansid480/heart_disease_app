@@ -2,7 +2,18 @@ services:
   - type: web
     name: heart-predict-ai
     env: python
+<<<<<<< HEAD
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
     branch: main
     plan: free
+=======
+    buildCommand: ""
+    startCommand: gunicorn app:app
+    runtime: python
+    region: oregon
+    plan: free
+    branch: main
+    healthCheckPath: /
+    autoDeploy: true
+>>>>>>> 7819fd7ff06d18d5a4c547ce35183826335f4291
