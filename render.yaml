@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: heart-predict-ai
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn app:app
+    runtime: python
+    region: oregon
+    plan: free
+    branch: main
+    healthCheckPath: /
+    autoDeploy: true
