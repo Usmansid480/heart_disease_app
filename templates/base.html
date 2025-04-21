@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#007bff" />
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}" />
+  <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}" type="image/png" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <title>Heart Predict AI</title>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo" />
+      <h1 class="title">Heart Predict AI</h1>
+    </div>
+
+    <div class="header-right">
+      <button id="theme-toggle" class="theme-toggle" title="Toggle Theme">🌙</button>
+    </div>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <!-- Install Button -->
+  <button id="install-button" class="install-btn" style="display: none;">📲 Install App</button>
+
+  <!-- Scripts -->
+  <script>
+    // Theme toggle
+    const toggle = document.getElementById('theme-toggle');
+    toggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      toggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem('theme', newTheme);
+    });
+
+    // Set theme on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      document.getElementById('theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    });
+
+    // Service worker registration
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/static/service-worker.js')
+        .then(() => console.log('✅ Service Worker registered'))
+        .catch(err => console.error('Service Worker registration failed:', err));
+    }
+
+    // Install prompt
+    let deferredPrompt;
+    const installBtn = document.getElementById('install-button');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'block';
+
+      installBtn.addEventListener('click', () => {
+        installBtn.style.display = 'none';
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(choice => {
+          if (choice.outcome === 'accepted') {
+            console.log('✅ App installed');
+          } else {
+            console.log('❌ User dismissed install prompt');
+          }
+          deferredPrompt = null;
+        });
+      });
+    });
+  </script>
+</body>
+</html>

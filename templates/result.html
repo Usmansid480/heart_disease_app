@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Result – Heart Predict AI{% endblock %}
+{% block content %}
+<div class="container result-container">
+  <h2>Prediction Result</h2>
+  <p class="result-text">{{ prediction }}</p>
+  <p class="recommendation">{{ recommendation }}</p>
+  <div class="buttons">
+    <button onclick="location.href='{{ url_for('form') }}'">🔄 Try Again</button>
+    <button onclick="location.href='{{ url_for('index') }}'">🏠 Home</button>
+  </div>
+</div>
+{% endblock %}
+

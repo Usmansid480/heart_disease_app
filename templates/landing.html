@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Welcome – Heart Predict AI{% endblock %}
+{% block content %}
+<div class="container landing">
+  <img src="{{ url_for('static', filename='logo.png') }}" class="logo" alt="Logo">
+  <h1>Welcome to Heart Predict AI</h1>
+  <p>Predict your heart disease risk in seconds.</p>
+  <button onclick="location.href='{{ url_for('form') }}'">❤️ Start Now</button>
+</div>
+{% endblock %}
