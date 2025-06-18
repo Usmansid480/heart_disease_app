@@ -1,14 +1,18 @@
-{% extends "base.html" %}
-{% block title %}Result – Heart Predict AI{% endblock %}
-{% block content %}
-<div class="container result-container">
-  <h2>Prediction Result</h2>
-  <p class="result-text">{{ prediction }}</p>
-  <p class="recommendation">{{ recommendation }}</p>
-  <div class="buttons">
-    <button onclick="location.href='{{ url_for('form') }}'">🔄 Try Again</button>
-    <button onclick="location.href='{{ url_for('index') }}'">🏠 Home</button>
-  </div>
-</div>
-{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Result - Heart Predict AI{% endblock %}
 
+{% block content %}
+<section class="center-section">
+  <div class="card">
+    <h2>🩺 Prediction Result</h2>
+    <p>{{ status | safe }}</p>
+    <div class="recommendation">
+      {{ recommendation | safe }}
+    </div>
+    {% if scan_id %}
+      <a href="{{ url_for('download_report', scan_id=scan_id) }}" class="btn">📄 Download Report</a>
+    {% endif %}
+    <a href="{{ url_for('form') }}" class="btn btn-secondary">← Scan Again</a>
+  </div>
+</section>
+{% endblock %}

@@ -1,10 +1,17 @@
-{% extends "base.html" %}
-{% block title %}Welcome – Heart Predict AI{% endblock %}
+{% extends 'base.html' %}
+
+{% block title %}Welcome - Heart Predict AI{% endblock %}
+
 {% block content %}
-<div class="container landing">
-  <img src="{{ url_for('static', filename='logo.png') }}" class="logo" alt="Logo">
-  <h1>Welcome to Heart Predict AI</h1>
-  <p>Predict your heart disease risk in seconds.</p>
-  <button onclick="location.href='{{ url_for('form') }}'">❤️ Start Now</button>
+<div class="landing-container">
+  <div class="welcome-box">
+    <h1>Welcome to Heart Predict AI</h1>
+    <p>Your AI-powered assistant for heart health prediction</p>
+    {% if 'user_id' in session %}
+      <a href="{{ url_for('form') }}" class="start-button">❤️ Start Now</a>
+    {% else %}
+      <a href="{{ url_for('login') }}" class="start-button">❤️ Start Now</a>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

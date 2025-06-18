@@ -2,10 +2,9 @@
   "name": "Heart Predict AI",
   "short_name": "HeartAI",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
-  "background_color": "#e0f7ff",
-  "theme_color": "#007bff",
+  "background_color": "#e0f7fa",
+  "theme_color": "#0288d1",
   "orientation": "portrait",
   "icons": [
     {

@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+*.sqlite3
+instance/
+.vscode/extensions/
+.vscode/*.code-workspace
+*.log
+*.DS_Store
+*.idea
+*.bak
+*.swp
+*.zip

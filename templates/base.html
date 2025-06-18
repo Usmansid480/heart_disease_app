@@ -1,82 +1,76 @@
-
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#007bff" />
-  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}" />
-  <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}" type="image/png" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Heart Predict AI</title>
+
+  <!-- Favicon / App Icon -->
+  <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png">
+
+  <!-- PWA Support -->
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <meta name="theme-color" content="#0a192f">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-
-  <header class="header">
-    <div class="logo-container">
-      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo" />
-      <h1 class="title">Heart Predict AI</h1>
+<body class="page-background">
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo-small">
+      <h1 class="brand">Heart Predict AI</h1>
     </div>
-
-    <div class="header-right">
-      <button id="theme-toggle" class="theme-toggle" title="Toggle Theme">🌙</button>
-    </div>
+    <nav class="nav-links">
+      <a href="{{ url_for('landing') }}">Home</a>
+      {% if 'user_id' in session %}
+        <a href="{{ url_for('form') }}">Form</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+      <a href="{{ url_for('about') }}">About</a>
+      <button id="theme-toggle" title="Toggle theme">🌙</button>
+    </nav>
   </header>
 
-  {% block content %}{% endblock %}
+  <main>
+    {% block content %}{% endblock %}
+  </main>
 
-  <!-- Install Button -->
-  <button id="install-button" class="install-btn" style="display: none;">📲 Install App</button>
+  <footer class="footer">
+    <p>© 2025 Heart Predict AI. All rights reserved.</p>
+  </footer>
 
-  <!-- Scripts -->
+  <!-- Theme Toggle Script -->
   <script>
-    // Theme toggle
     const toggle = document.getElementById('theme-toggle');
     toggle.addEventListener('click', () => {
       const html = document.documentElement;
-      const current = html.getAttribute('data-theme');
-      const newTheme = current === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', newTheme);
-      toggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-      localStorage.setItem('theme', newTheme);
+      const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', theme);
+      toggle.textContent = theme === 'dark' ? '🌞' : '🌙';
+      localStorage.setItem('theme', theme);
     });
 
-    // Set theme on load
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      document.getElementById('theme-toggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-    });
-
-    // Service worker registration
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/static/service-worker.js')
-        .then(() => console.log('✅ Service Worker registered'))
-        .catch(err => console.error('Service Worker registration failed:', err));
-    }
-
-    // Install prompt
-    let deferredPrompt;
-    const installBtn = document.getElementById('install-button');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installBtn.style.display = 'block';
-
-      installBtn.addEventListener('click', () => {
-        installBtn.style.display = 'none';
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(choice => {
-          if (choice.outcome === 'accepted') {
-            console.log('✅ App installed');
-          } else {
-            console.log('❌ User dismissed install prompt');
-          }
-          deferredPrompt = null;
-        });
-      });
-    });
+    // Load saved theme on page load
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.getElementById('theme-toggle').textContent = savedTheme === 'dark' ? '🌞' : '🌙';
   </script>
+
+  <!-- PWA Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('{{ url_for("static", filename="service-worker.js") }}')
+        .then(reg => console.log("✅ Service Worker Registered"))
+        .catch(err => console.error("❌ SW registration failed:", err));
+    }
+  </script>
+
+  <!-- PWA Install Prompt -->
+  <script src="{{ url_for('static', filename='install.js') }}"></script>
 </body>
 </html>

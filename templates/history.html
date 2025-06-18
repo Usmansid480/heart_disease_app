@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}History - Heart Predict AI{% endblock %}
+
+{% block content %}
+<section class="center-section">
+  <div class="card">
+    <h2>📚 Scan History</h2>
+    {% if history %}
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Prediction</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for scan in history %}
+          <tr>
+            <td>{{ scan.date.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ scan.prediction }}</td>
+            <td><a href="{{ url_for('download_report', scan_id=scan.id) }}" class="btn btn-sm">Download</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No scan history found.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

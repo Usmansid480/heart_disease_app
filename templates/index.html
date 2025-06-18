@@ -1,59 +1,40 @@
-{% extends "base.html" %}
-{% block title %}Patient Details – Heart Predict AI{% endblock %}
+{% extends 'base.html' %}
 {% block content %}
-<div class="container form-container">
-  <h2>Enter Patient’s Details</h2>
-  <form method="POST" action="{{ url_for('predict') }}">
+<h2>Enter Patient's <Details></Details></h2>
+<form action="{{ url_for('predict') }}" method="POST" class="prediction-form">
     <input type="number" name="age" placeholder="Age" required>
-
-    <select name="sex" required>
-      <option value="" disabled selected>Gender</option>
-      <option value="1">Male</option>
-      <option value="0">Female</option>
+    <select name="sex">
+        <option value="1">Male</option>
+        <option value="0">Female</option>
     </select>
-
-    <select name="cp" required>
-      <option value="" disabled selected>Chest Pain Type</option>
-      <option value="0">Typical Angina</option>
-      <option value="1">Atypical Angina</option>
-      <option value="2">Non‑anginal Pain</option>
-      <option value="3">Asymptomatic</option>
+    <select name="cp">
+        <option value="0">Typical Angina</option>
+        <option value="1">Atypical Angina</option>
+        <option value="2">Non-anginal Pain</option>
+        <option value="3">Asymptomatic</option>
     </select>
-
-    <input type="number" name="trestbps" placeholder="Resting BP (mm Hg)" required>
-    <input type="number" name="chol" placeholder="Cholesterol (mg/dl)" required>
-
-    <select name="fbs" required>
-      <option value="" disabled selected>Fasting BS (0 or 1)</option>
-      <option value="1">1 (&gt;120 mg/dl)</option>
-      <option value="0">0 (≤120 mg/dl)</option>
+    <input type="number" name="trestbps" placeholder="Resting BP" required>
+    <input type="number" name="chol" placeholder="Cholesterol" required>
+    <select name="fbs">
+        <option value="1">FBS > 120 mg/dl</option>
+        <option value="0">FBS ≤ 120 mg/dl</option>
     </select>
-
-    <select name="restecg" required>
-      <option value="" disabled selected>Resting ECG</option>
-      <option value="0">Normal</option>
-      <option value="1">ST‑T Abnormality</option>
-      <option value="2">LV Hypertrophy</option>
+    <select name="restecg">
+        <option value="0">Normal</option>
+        <option value="1">ST-T Abnormality</option>
+        <option value="2">LV Hypertrophy</option>
     </select>
-
     <input type="number" name="thalach" placeholder="Max Heart Rate" required>
-
-    <select name="exang" required>
-      <option value="" disabled selected>Exercise‑Induced Angina</option>
-      <option value="1">Yes</option>
-      <option value="0">No</option>
+    <select name="exang">
+        <option value="1">Yes (Exercise Induced Angina)</option>
+        <option value="0">No</option>
     </select>
-
-    <input type="number" step="0.1" name="oldpeak" placeholder="Oldpeak (ST depression)" required>
-
-    <select name="slope" required>
-      <option value="" disabled selected>Slope of ST Segment</option>
-      <option value="0">Upsloping</option>
-      <option value="1">Flat</option>
-      <option value="2">Downsloping</option>
+    <input type="number" step="0.1" name="oldpeak" placeholder="Oldpeak" required>
+    <select name="slope">
+        <option value="0">Upsloping</option>
+        <option value="1">Flat</option>
+        <option value="2">Downsloping</option>
     </select>
-
-    <button type="submit">🔍 Predict</button>
-  </form>
-</div>
+    <button type="submit" class="btn">Predict</button>
+</form>
 {% endblock %}
